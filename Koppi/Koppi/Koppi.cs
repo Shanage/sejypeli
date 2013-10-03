@@ -9,40 +9,89 @@ using Jypeli.Widgets;
 public class Koppi : PhysicsGame
 {
     IntMeter pisteLaskuri;
-    IntMeter elamat = new IntMeter(3, 0, 5);
-    int level = 1;
-    int omenoitaIlmassa = 1;
-
-    void LuoElamalaskuri()
+    IntMeter elamaLaskuri;
+    IntMeter tasoLaskuri;
+    int omenoitaIlmassa;
+    void LuoNaytto(IntMeter laskuri, double x, double y)
     {
-        Label elamaNaytto = new Label();
-        elamaNaytto.BindTo(elamat);
-        elamaNaytto.X = Screen.Right - 50.50;
-        elamaNaytto.Y = Screen.Top - 50.0;
-        Add(elamaNaytto);
+        Label naytto = new Label();
+        naytto.X = x;
+        naytto.Y = y;
+        naytto.BindTo(laskuri);
+
+        Add(naytto);
     }
-    void LuopisteLaskuri()
-    {
-        pisteLaskuri = new IntMeter (0);
-        Label pisteNaytto = new Label();
-        pisteNaytto.BindTo(pisteLaskuri);
-        Add(pisteNaytto);
 
-    } 
-    
     public override void Begin()
     {
-        LuopisteLaskuri();
-        LuoElamalaskuri();
-
-        UusiOmena(level);
-        omenoitaIlmassa = level;
+        pisteLaskuri = new IntMeter(0);
+        LuoNaytto(pisteLaskuri, Screen.Left + 50, Screen.Top - 50);
+        elamaLaskuri = new IntMeter (5, 0, 5);
+        LuoNaytto(elamaLaskuri, Screen.Right - 50, Screen.Top - 50);
+        tasoLaskuri = new IntMeter (1, 1, 10);
+        LuoNaytto(tasoLaskuri, Screen.Left + 50, Screen.Top - 100);
 
         PhysicsObject pohja =
             Level.CreateBottomBorder();
         AddCollisionHandler(pohja, PutosiMaahan);
-    
-        PhysicsObject omena = new PhysicsObject(50, 50);
+
+        PudotaOmenoita(tasoLaskuri.Value);
+
+        Gravity = new Vector(0.0, -100.0);
+
+        IsMouseVisible = true;
+        PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
+        Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
+    }
+   
+   
+    void PutosiMaahan(
+        PhysicsObject maa,
+        PhysicsObject omena)
+{
+
+    if (omena.Color == Color.Red)
+    {
+        omena.Color = Color.Black;
+        elamaLaskuri.AddValue(-1);
+        if (elamaLaskuri.Value == 0)
+        {
+            ClearAll();
+            Begin();
+        }
+        omenoitaIlmassa = omenoitaIlmassa - 1;
+       // TarkistaOmenoidenLukumaara();
+
+    }
+ }
+
+    void OmenaaKlikattu(IPhysicsObject KlikattuOmena)
+    {
+        if (KlikattuOmena.Color == Color.Red)
+        {
+            KlikattuOmena.Destroy();
+            pisteLaskuri.AddValue(100);
+
+            omenoitaIlmassa -= 1;
+            TarkistaOnkoKaikkiKiinni();
+        }
+}
+     
+    void TarkistaOnkoKaikkiKiinni()
+    {
+        if (omenoitaIlmassa == 0)
+        {
+            tasoLaskuri.AddValue(1);
+            PudotaOmenoita(tasoLaskuri.Value);
+        }
+    }
+  
+    void PudotaOmenoita(int lukumaara)
+    {
+        for (int i=0; i<lukumaara; i++)
+        {
+
+          PhysicsObject omena = new PhysicsObject(50, 50);
         omena.Shape = Shape.Circle;
         omena.Color = Color.Red;
         omena.Y = Screen.Top;
@@ -55,41 +104,10 @@ public class Koppi : PhysicsGame
         Mouse.ListenOn(omena, MouseButton.Left,
             ButtonState.Pressed, OmenaaKlikattu,
             "omenaa klikattu", omena);
-
+       
         omena.Hit(RandomGen.NextVector(50, 100));
 
-        Gravity = new Vector(0.0, -100.0);
-
-        IsMouseVisible = true;
-        PhoneBackButton.Listen(ConfirmExit, "Lopeta peli");
-        Keyboard.Listen(Key.Escape, ButtonState.Pressed, ConfirmExit, "Lopeta peli");
+        omenoitaIlmassa = lukumaara;
+    } 
     }
-    void UusiOmena(int level);
-        for (int i= 
-    
-    void PutosiMaahan(
-        PhysicsObject maa,
-        PhysicsObject omena)
-    {
-        
-
-        if (omena.Color != Color.Black)
-        {
-        elamat.AddValue(-1);
-        omena.Color = Color.Black();
-        
-        omena.Color = Color.Black;
-        omenoitaIlmassa = omenoitaIlmassa
-        }
-    }
-    
-    void OmenaaKlikattu(IPhysicsObject KlikattuOmena)
-    {
-        KlikattuOmena.Destroy();
-        pisteLaskuri.AddValue(100);
-        omenoitaIlmassa();
-    }
-
-  
-
-} 
+}    
