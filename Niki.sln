@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Niki", "Niki\Niki\Niki.csproj", "{CC9E8D68-A464-46D6-BDC1-B4C3B2F3BDC1}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "NikiContent", "Niki\NikiContent\NikiContent.contentproj", "{99EB11FF-D609-4E15-B632-A03E9BCB7C13}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC9E8D68-A464-46D6-BDC1-B4C3B2F3BDC1}.Debug|x86.ActiveCfg = Debug|x86
+		{CC9E8D68-A464-46D6-BDC1-B4C3B2F3BDC1}.Debug|x86.Build.0 = Debug|x86
+		{CC9E8D68-A464-46D6-BDC1-B4C3B2F3BDC1}.Release|x86.ActiveCfg = Release|x86
+		{CC9E8D68-A464-46D6-BDC1-B4C3B2F3BDC1}.Release|x86.Build.0 = Release|x86
+		{99EB11FF-D609-4E15-B632-A03E9BCB7C13}.Debug|x86.ActiveCfg = Debug|x86
+		{99EB11FF-D609-4E15-B632-A03E9BCB7C13}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
