@@ -68,7 +68,6 @@ public class Niki : PhysicsGame
         marja.Position = paikka;
         marja.Image = marjanKuva;
         marja.Tag = "marja";
-        marja.Destroy();
         Add(marja, 1);
 
     }
@@ -105,5 +104,7 @@ public class Niki : PhysicsGame
     {
     
     }
+
+
 
 }
