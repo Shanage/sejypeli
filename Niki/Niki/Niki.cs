@@ -16,6 +16,7 @@ public class Niki : PhysicsGame
 
     Image pelaajanKuva = LoadImage("hahmopixeli");
     Image marjanKuva = LoadImage("marja");
+    Image taustaKuva = LoadImage("pelitaso");
 
     public override void Begin()
     {
@@ -38,6 +39,8 @@ public class Niki : PhysicsGame
         ruudut.SetTileMethod(Color.FromHexCode("FF0004"), LisaaMarja);
 
         ruudut.Execute();
+
+        AddCollisionHandler(pelaaja1, "marja", PelaajaOsuu);
     }
 
     void LisaaTaso(Vector paikka, double leveys, double korkeus)
@@ -45,6 +48,7 @@ public class Niki : PhysicsGame
         PhysicsObject taso = PhysicsObject.CreateStaticObject(leveys, korkeus);
         taso.Position = paikka;
         taso.Color = Color.Green;
+        Level.Background.Image = taustaKuva;
         Add(taso);
     }
 
@@ -59,11 +63,12 @@ public class Niki : PhysicsGame
 
     void LisaaMarja(Vector paikka, double leveys, double korkeus)
     {
-        IPhysicsObject marja = new PhysicsObject(5, 5);
-        marja.IgnoresCollisionResponse = true;
+        IPhysicsObject marja = new PhysicsObject(20, 20);
+       // marja.IgnoresCollisionResponse = true;
         marja.Position = paikka;
         marja.Image = marjanKuva;
         marja.Tag = "marja";
+        marja.Destroy();
         Add(marja, 1);
 
     }
@@ -94,6 +99,11 @@ public class Niki : PhysicsGame
     void Hyppaa(PlatformCharacter hahmo, double nopeus)
     {
         hahmo.Jump(nopeus);
+    }
+
+    void PelaajaOsuu(PhysicsObject pelaaja, PhysicsObject kohde)
+    {
+    
     }
 
 }
