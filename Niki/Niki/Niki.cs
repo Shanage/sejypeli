@@ -9,7 +9,7 @@ using Jypeli.Widgets;
 public class Niki : PhysicsGame
 {
     const double nopeus = 200;
-    const double hyppyNopeus = 750;
+    const double hyppyNopeus = 650;
     const int RUUDUN_KOKO = 40;
 
     PlatformCharacter pelaaja1;
@@ -17,16 +17,19 @@ public class Niki : PhysicsGame
     Image pelaajanKuva = LoadImage("hahmopixeli");
     Image marjanKuva = LoadImage("marja");
     Image taustaKuva = LoadImage("pelitaso");
+    Image tasoKuva = LoadImage("palikka2");
+    Image luolaKuva = LoadImage("luola");
+
 
     public override void Begin()
     {
-        Gravity = new Vector(0, -1000);
+        Gravity = new Vector(0, -900);
 
         LuoKentta();
         LisaaNappaimet();
 
         Camera.Follow(pelaaja1);
-        Camera.ZoomFactor = 1.2;
+        Camera.ZoomFactor = 3.0;
         Camera.StayInLevel = true;
     }
 
@@ -37,10 +40,14 @@ public class Niki : PhysicsGame
         ruudut.SetTileMethod(Color.FromHexCode("2629FF"), LisaaPelaaja);
         ruudut.SetTileMethod(Color.FromHexCode("562F20"), LisaaTaso);
         ruudut.SetTileMethod(Color.FromHexCode("FF0004"), LisaaMarja);
+        ruudut.SetTileMethod(Color.FromHexCode("00BE00"), LisaaLuola);
+
 
         ruudut.Execute();
 
         AddCollisionHandler(pelaaja1, "marja", PelaajaOsuu);
+        AddCollisionHandler(pelaaja1, "luola", PelaajaOsuu2);
+        Level.Background.Image = taustaKuva;
     }
 
     void LisaaTaso(Vector paikka, double leveys, double korkeus)
@@ -48,23 +55,32 @@ public class Niki : PhysicsGame
         PhysicsObject taso = PhysicsObject.CreateStaticObject(leveys, korkeus);
         taso.Position = paikka;
         taso.Color = Color.Green;
-        Level.Background.Image = taustaKuva;
+        taso.Image = tasoKuva;
         Add(taso);
+    }
+
+    void LisaaLuola(Vector paikka, double leveys, double korkeus)
+    {
+        PhysicsObject luola = PhysicsObject.CreateStaticObject(60, 60);
+        luola.Position = paikka;
+        luola.Image = luolaKuva;
+        luola.Tag = "luola";
+        Add(luola);
     }
 
     void LisaaPelaaja(Vector paikka, double leveys, double korkeus)
     {
-        pelaaja1 = new PlatformCharacter(leveys, korkeus);
+        pelaaja1 = new PlatformCharacter(40, 40);
         pelaaja1.Position = paikka;
-        pelaaja1.Mass = 4.0;
+        pelaaja1.Mass = 6.0;
         pelaaja1.Image = pelaajanKuva;
         Add(pelaaja1);
     }
 
     void LisaaMarja(Vector paikka, double leveys, double korkeus)
     {
-        IPhysicsObject marja = new PhysicsObject(20, 20);
-       // marja.IgnoresCollisionResponse = true;
+        IPhysicsObject marja = new PhysicsObject(15, 15);
+       //marja.IgnoresCollisionResponse = true;
         marja.Position = paikka;
         marja.Image = marjanKuva;
         marja.Tag = "marja";
@@ -100,11 +116,16 @@ public class Niki : PhysicsGame
         hahmo.Jump(nopeus);
     }
 
-    void PelaajaOsuu(PhysicsObject pelaaja, PhysicsObject kohde)
+    void PelaajaOsuu(PhysicsObject pelaaja, PhysicsObject marja)
     {
-    
+        marja.Destroy();
     }
 
+    void PelaajaOsuu2(PhysicsObject pelaaja, PhysicsObject luola)
+    {
+
+    }
+    
 
 
 }
