@@ -13,9 +13,10 @@ public class Niki : PhysicsGame
     const int RUUDUN_KOKO = 40;
 
     PlatformCharacter pelaaja1;
+    PhysicsObject luola;
 
-    Image pelaajanKuva = LoadImage("hahmopixeli");
-    Image marjanKuva = LoadImage("marja");
+    Image pelaajanKuva = LoadImage("kavely1,2");
+    Image marjanKuva = LoadImage("marja2");
     Image taustaKuva = LoadImage("pelitaso");
     Image tasoKuva = LoadImage("palikka2");
     Image luolaKuva = LoadImage("luola");
@@ -123,7 +124,8 @@ public class Niki : PhysicsGame
 
     void PelaajaOsuu2(PhysicsObject pelaaja, PhysicsObject luola)
     {
-
+        ClearAll();
+        Begin();
     }
     
 
